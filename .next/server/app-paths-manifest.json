@@ -1,4 +1,3 @@
 {
-  "/api/v1/classes/route": "app/api/v1/classes/route.js",
-  "/page": "app/page.js"
+  "/api/v1/auth/login/route": "app/api/v1/auth/login/route.js"
 }

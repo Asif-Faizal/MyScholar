@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { UserService } from '../../services/UserService'
-import { AuthUtils } from '../../utils/auth'
 import { schemas } from '../../utils/validation'
 
 const userService = new UserService()

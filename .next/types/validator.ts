@@ -65,12 +65,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/v1/auth/login">
 }
 
-// Validate ../../src/app/api/v1/auth/profile/route.ts
-{
-  const handler = {} as typeof import("../../src/app/api/v1/auth/profile/route.js")
-  handler satisfies RouteHandlerConfig<"/api/v1/auth/profile">
-}
-
 // Validate ../../src/app/api/v1/classes/route.ts
 {
   const handler = {} as typeof import("../../src/app/api/v1/classes/route.js")
