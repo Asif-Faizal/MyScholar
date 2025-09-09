@@ -5,7 +5,7 @@ import { PunchInRequest, PunchOutRequest } from '../types';
 export class AttendanceController {
   private attendanceService = new AttendanceService();
 
-  async punchIn(req: Request, res: Response) {
+  async punchIn(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.user!.user_id;
       const punchData: PunchInRequest = req.body;
@@ -25,7 +25,7 @@ export class AttendanceController {
     }
   }
 
-  async punchOut(req: Request, res: Response) {
+  async punchOut(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.user!.user_id;
       const punchData: PunchOutRequest = req.body;
@@ -45,7 +45,7 @@ export class AttendanceController {
     }
   }
 
-  async getAttendanceByClass(req: Request, res: Response) {
+  async getAttendanceByClass(req: Request, res: Response): Promise<void> {
     try {
       const classId = parseInt(req.params.class_id);
       
@@ -63,7 +63,7 @@ export class AttendanceController {
     }
   }
 
-  async getMyAttendance(req: Request, res: Response) {
+  async getMyAttendance(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.user!.user_id;
       const startDate = req.query.start_date as string;
@@ -83,7 +83,7 @@ export class AttendanceController {
     }
   }
 
-  async getAttendanceReport(req: Request, res: Response) {
+  async getAttendanceReport(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.query.user_id ? parseInt(req.query.user_id as string) : undefined;
       const startDate = req.query.start_date as string;
@@ -104,7 +104,7 @@ export class AttendanceController {
     }
   }
 
-  async getCombinedAttendanceReport(req: Request, res: Response) {
+  async getCombinedAttendanceReport(req: Request, res: Response): Promise<void> {
     try {
       const classId = parseInt(req.params.class_id);
       
@@ -122,16 +122,17 @@ export class AttendanceController {
     }
   }
 
-  async getAttendanceStats(req: Request, res: Response) {
+  async getAttendanceStats(req: Request, res: Response): Promise<void> {
     try {
       const userId = parseInt(req.params.user_id);
       
       // Verify access - user can only see their own stats unless admin/staff
       if (req.user!.role !== 'admin' && req.user!.role !== 'staff' && req.user!.user_id !== userId) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           error: 'Access denied'
         });
+        return;
       }
       
       const startDate = req.query.start_date as string;
@@ -151,7 +152,7 @@ export class AttendanceController {
     }
   }
 
-  async getMyAttendanceStats(req: Request, res: Response) {
+  async getMyAttendanceStats(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.user!.user_id;
       const startDate = req.query.start_date as string;

@@ -8,9 +8,9 @@ const router = Router();
 const authController = new AuthController();
 
 // Public routes
-router.post('/login', validateRequest(schemas.login), authController.login);
+router.post('/login', validateRequest(schemas.login), authController.login.bind(authController));
 
 // Protected routes
-router.get('/profile', authenticateToken, authController.getProfile);
+router.get('/profile', authenticateToken, authController.getProfile.bind(authController));
 
 export default router;

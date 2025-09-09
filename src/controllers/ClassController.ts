@@ -5,7 +5,7 @@ import { CreateClassRequest, UpdateClassRequest } from '../types';
 export class ClassController {
   private classService = new ClassService();
 
-  async createClass(req: Request, res: Response) {
+  async createClass(req: Request, res: Response): Promise<void> {
     try {
       const classData: CreateClassRequest = req.body;
       const staffId = req.user!.user_id;
@@ -24,7 +24,7 @@ export class ClassController {
     }
   }
 
-  async getAllClasses(req: Request, res: Response) {
+  async getAllClasses(req: Request, res: Response): Promise<void> {
     try {
       const page = parseInt(req.query.page as string) || 1;
       const limit = parseInt(req.query.limit as string) || 10;
@@ -51,16 +51,17 @@ export class ClassController {
     }
   }
 
-  async getClassById(req: Request, res: Response) {
+  async getClassById(req: Request, res: Response): Promise<void> {
     try {
       const classId = parseInt(req.params.class_id);
       const classRecord = await this.classService.getClassById(classId);
       
       if (!classRecord) {
-        return res.status(404).json({
+        res.status(404).json({
           success: false,
           error: 'Class not found'
         });
+        return;
       }
       
       res.json({
@@ -75,7 +76,7 @@ export class ClassController {
     }
   }
 
-  async updateClass(req: Request, res: Response) {
+  async updateClass(req: Request, res: Response): Promise<void> {
     try {
       const classId = parseInt(req.params.class_id);
       const updateData: UpdateClassRequest = req.body;
@@ -94,7 +95,7 @@ export class ClassController {
     }
   }
 
-  async deleteClass(req: Request, res: Response) {
+  async deleteClass(req: Request, res: Response): Promise<void> {
     try {
       const classId = parseInt(req.params.class_id);
       
@@ -112,16 +113,17 @@ export class ClassController {
     }
   }
 
-  async getTeacherTimetable(req: Request, res: Response) {
+  async getTeacherTimetable(req: Request, res: Response): Promise<void> {
     try {
       const teacherId = parseInt(req.params.teacher_id);
       
       // Verify the requesting user is the teacher or has admin/staff access
       if (req.user!.role !== 'admin' && req.user!.role !== 'staff' && req.user!.user_id !== teacherId) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           error: 'Access denied'
         });
+        return;
       }
       
       const timetable = await this.classService.getTeacherTimetable(teacherId);
@@ -138,16 +140,17 @@ export class ClassController {
     }
   }
 
-  async getStudentTimetable(req: Request, res: Response) {
+  async getStudentTimetable(req: Request, res: Response): Promise<void> {
     try {
       const studentId = parseInt(req.params.student_id);
       
       // Verify the requesting user is the student or has admin/staff access
       if (req.user!.role !== 'admin' && req.user!.role !== 'staff' && req.user!.user_id !== studentId) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           error: 'Access denied'
         });
+        return;
       }
       
       const timetable = await this.classService.getStudentTimetable(studentId);
@@ -164,7 +167,7 @@ export class ClassController {
     }
   }
 
-  async getMyTimetable(req: Request, res: Response) {
+  async getMyTimetable(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.user!.user_id;
       const userRole = req.user!.role;
@@ -175,10 +178,11 @@ export class ClassController {
       } else if (userRole === 'student') {
         timetable = await this.classService.getStudentTimetable(userId);
       } else {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: 'Timetable not available for this role'
         });
+        return;
       }
       
       res.json({

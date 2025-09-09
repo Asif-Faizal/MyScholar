@@ -11,15 +11,15 @@ const classController = new ClassController();
 router.use(authenticateToken);
 
 // Staff and Admin routes
-router.post('/', requireStaffOrAdmin, validateRequest(schemas.createClass), classController.createClass);
-router.get('/', requireStaffOrAdmin, validateQuery(schemas.pagination), classController.getAllClasses);
-router.get('/:class_id', validateParams(schemas.classId), classController.getClassById);
-router.put('/:class_id', requireStaffOrAdmin, validateParams(schemas.classId), validateRequest(schemas.updateClass), classController.updateClass);
-router.delete('/:class_id', requireStaffOrAdmin, validateParams(schemas.classId), classController.deleteClass);
+router.post('/', requireStaffOrAdmin, validateRequest(schemas.createClass), classController.createClass.bind(classController));
+router.get('/', requireStaffOrAdmin, validateQuery(schemas.pagination), classController.getAllClasses.bind(classController));
+router.get('/:class_id', validateParams(schemas.classId), classController.getClassById.bind(classController));
+router.put('/:class_id', requireStaffOrAdmin, validateParams(schemas.classId), validateRequest(schemas.updateClass), classController.updateClass.bind(classController));
+router.delete('/:class_id', requireStaffOrAdmin, validateParams(schemas.classId), classController.deleteClass.bind(classController));
 
 // Timetable routes
-router.get('/teacher/:teacher_id/timetable', classController.getTeacherTimetable);
-router.get('/student/:student_id/timetable', classController.getStudentTimetable);
-router.get('/my/timetable', requireTeacherOrStudent, classController.getMyTimetable);
+router.get('/teacher/:teacher_id/timetable', classController.getTeacherTimetable.bind(classController));
+router.get('/student/:student_id/timetable', classController.getStudentTimetable.bind(classController));
+router.get('/my/timetable', requireTeacherOrStudent, classController.getMyTimetable.bind(classController));
 
 export default router;

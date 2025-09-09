@@ -5,7 +5,7 @@ import { LoginRequest } from '../types';
 export class AuthController {
   private userService = new UserService();
 
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response): Promise<void> {
     try {
       const loginData: LoginRequest = req.body;
       const result = await this.userService.login(loginData);
@@ -22,16 +22,17 @@ export class AuthController {
     }
   }
 
-  async getProfile(req: Request, res: Response) {
+  async getProfile(req: Request, res: Response): Promise<void> {
     try {
       const userId = req.user!.user_id;
       const user = await this.userService.getUserById(userId);
       
       if (!user) {
-        return res.status(404).json({
+        res.status(404).json({
           success: false,
           error: 'User not found'
         });
+        return;
       }
 
       // Remove password hash from response

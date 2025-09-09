@@ -4,14 +4,20 @@ export const schemas = {
   // User schemas
   createUser: Joi.object({
     role: Joi.string().valid('admin', 'staff', 'teacher', 'student').required(),
-    alias: Joi.string().min(2).max(50).required(),
+    alias: Joi.string().min(2).max(50).pattern(/^[a-zA-Z0-9\s\-\.]+$/).required()
+      .messages({
+        'string.pattern.base': 'Alias can only contain letters, numbers, spaces, hyphens, and dots'
+      }),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required()
   }),
 
   updateUser: Joi.object({
     role: Joi.string().valid('admin', 'staff', 'teacher', 'student').optional(),
-    alias: Joi.string().min(2).max(50).optional(),
+    alias: Joi.string().min(2).max(50).pattern(/^[a-zA-Z0-9\s\-\.]+$/).optional()
+      .messages({
+        'string.pattern.base': 'Alias can only contain letters, numbers, spaces, hyphens, and dots'
+      }),
     email: Joi.string().email().optional(),
     password: Joi.string().min(6).optional()
   }),

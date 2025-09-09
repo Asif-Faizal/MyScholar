@@ -11,13 +11,13 @@ const userController = new UserController();
 router.use(authenticateToken);
 
 // Admin-only routes
-router.post('/', requireAdmin, validateRequest(schemas.createUser), userController.createUser);
-router.get('/', requireAdmin, validateQuery(schemas.pagination), userController.getAllUsers);
-router.get('/role/:role', requireAdmin, userController.getUsersByRole);
-router.put('/:user_id', requireAdmin, validateParams(schemas.userId), validateRequest(schemas.updateUser), userController.updateUser);
-router.delete('/:user_id', requireAdmin, validateParams(schemas.userId), userController.deleteUser);
+router.post('/', requireAdmin, validateRequest(schemas.createUser), userController.createUser.bind(userController));
+router.get('/', requireAdmin, validateQuery(schemas.pagination), userController.getAllUsers.bind(userController));
+router.get('/role/:role', requireAdmin, userController.getUsersByRole.bind(userController));
+router.put('/:user_id', requireAdmin, validateParams(schemas.userId), validateRequest(schemas.updateUser), userController.updateUser.bind(userController));
+router.delete('/:user_id', requireAdmin, validateParams(schemas.userId), userController.deleteUser.bind(userController));
 
 // Admin and user can access their own profile
-router.get('/:user_id', validateParams(schemas.userId), userController.getUserById);
+router.get('/:user_id', validateParams(schemas.userId), userController.getUserById.bind(userController));
 
 export default router;

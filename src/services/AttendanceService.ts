@@ -295,7 +295,7 @@ export class AttendanceService {
       FROM classes 
       WHERE (teacher_id = ? OR student_id = ?)
     `;
-    const totalParams = [userId, userId];
+    const totalParams: any[] = [userId, userId];
 
     if (startDate) {
       totalQuery += ' AND start_time >= ?';

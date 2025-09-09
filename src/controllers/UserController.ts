@@ -5,7 +5,7 @@ import { CreateUserRequest, UpdateUserRequest } from '../types';
 export class UserController {
   private userService = new UserService();
 
-  async createUser(req: Request, res: Response) {
+  async createUser(req: Request, res: Response): Promise<void> {
     try {
       const userData: CreateUserRequest = req.body;
       const createdBy = req.user!.user_id;
@@ -27,7 +27,7 @@ export class UserController {
     }
   }
 
-  async getAllUsers(req: Request, res: Response) {
+  async getAllUsers(req: Request, res: Response): Promise<void> {
     try {
       const page = parseInt(req.query.page as string) || 1;
       const limit = parseInt(req.query.limit as string) || 10;
@@ -57,16 +57,17 @@ export class UserController {
     }
   }
 
-  async getUserById(req: Request, res: Response) {
+  async getUserById(req: Request, res: Response): Promise<void> {
     try {
       const userId = parseInt(req.params.user_id);
       const user = await this.userService.getUserById(userId);
       
       if (!user) {
-        return res.status(404).json({
+        res.status(404).json({
           success: false,
           error: 'User not found'
         });
+        return;
       }
 
       // Remove password hash from response
@@ -84,7 +85,7 @@ export class UserController {
     }
   }
 
-  async updateUser(req: Request, res: Response) {
+  async updateUser(req: Request, res: Response): Promise<void> {
     try {
       const userId = parseInt(req.params.user_id);
       const updateData: UpdateUserRequest = req.body;
@@ -106,16 +107,17 @@ export class UserController {
     }
   }
 
-  async deleteUser(req: Request, res: Response) {
+  async deleteUser(req: Request, res: Response): Promise<void> {
     try {
       const userId = parseInt(req.params.user_id);
       
       // Prevent admin from deleting themselves
       if (userId === req.user!.user_id) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: 'Cannot delete your own account'
         });
+        return;
       }
       
       await this.userService.deleteUser(userId);
@@ -132,15 +134,16 @@ export class UserController {
     }
   }
 
-  async getUsersByRole(req: Request, res: Response) {
+  async getUsersByRole(req: Request, res: Response): Promise<void> {
     try {
       const role = req.params.role as 'admin' | 'staff' | 'teacher' | 'student';
       
       if (!['admin', 'staff', 'teacher', 'student'].includes(role)) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: 'Invalid role'
         });
+        return;
       }
       
       const users = await this.userService.getUsersByRole(role);

@@ -1,8 +1,5 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 class Database {
   private static instance: Database;

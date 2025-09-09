@@ -36,16 +36,18 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 };
 
 export const requireRole = (allowedRoles: UserRole[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     if (!req.user) {
-      return res.status(401).json({ error: 'Unauthorized', message: 'User not authenticated' });
+      res.status(401).json({ error: 'Unauthorized', message: 'User not authenticated' });
+      return;
     }
 
     if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ 
+      res.status(403).json({ 
         error: 'Forbidden', 
         message: `Access denied. Required roles: ${allowedRoles.join(', ')}` 
       });
+      return;
     }
 
     next();
