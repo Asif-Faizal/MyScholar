@@ -1,6 +1,6 @@
-# MyScholar Backend System
+# MyScholar - Educational Management System
 
-A comprehensive backend system for educational management with role-based authentication, built with Node.js, Express, TypeScript, and SQLite.
+A comprehensive full-stack educational management system with role-based authentication, built with Next.js, TypeScript, and SQLite.
 
 ## Features
 
@@ -20,12 +20,13 @@ A comprehensive backend system for educational management with role-based authen
 
 ## Tech Stack
 
-- **Backend**: Node.js, Express.js, TypeScript
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, TypeScript
 - **Database**: SQLite with migrations
 - **Authentication**: JWT tokens
 - **Validation**: Joi
-- **Security**: Helmet, CORS, Rate limiting
-- **Testing**: Jest, Custom test scripts
+- **Security**: Input validation, XSS protection
+- **Testing**: Custom test scripts
 
 ## Quick Start
 
@@ -53,15 +54,19 @@ This will create:
 ### 3. Start Development Server
 
 ```bash
-# Start with hot reload
+# Start Next.js development server
 npm run dev
-
-# Or build and start production
-npm run build
-npm start
 ```
 
-Server will start at `http://localhost:3000`
+The application will be available at `http://localhost:3000`
+
+### 4. Access the Dashboard
+
+1. Open `http://localhost:3000` in your browser
+2. Login with demo credentials:
+   - **Email**: admin@myscholar.com
+   - **Password**: admin123
+3. Explore the minimal dashboard with user and class management
 
 ### 4. Setup Demo Data (Optional)
 
