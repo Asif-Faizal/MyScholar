@@ -1,3 +1,15 @@
 {
-  "/api/v1/auth/login/route": "app/api/v1/auth/login/route.js"
+  "/api/v1/auth/login/route": "app/api/v1/auth/login/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/v1/classes/route": "app/api/v1/classes/route.js",
+  "/api/v1/mappings/route": "app/api/v1/mappings/route.js",
+  "/api/v1/sessions/route": "app/api/v1/sessions/route.js",
+  "/api/v1/health/route": "app/api/v1/health/route.js",
+  "/api/v1/users/route": "app/api/v1/users/route.js",
+  "/dashboard/admin/page": "app/dashboard/admin/page.js",
+  "/dashboard/student/page": "app/dashboard/student/page.js",
+  "/dashboard/staff/page": "app/dashboard/staff/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/tutor/page": "app/dashboard/tutor/page.js",
+  "/page": "app/page.js"
 }

@@ -21,6 +21,8 @@
     "@tailwindcss/postcss": "^4.1.13",
     "autoprefixer": "^10.4.21",
     "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.4.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.3.1",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
