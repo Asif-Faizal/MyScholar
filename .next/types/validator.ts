@@ -47,10 +47,28 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 }
 
 
+// Validate ../../src/app/dashboard/admin/attendance/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/admin/attendance/page.js")
+  handler satisfies AppPageConfig<"/dashboard/admin/attendance">
+}
+
+// Validate ../../src/app/dashboard/admin/mappings/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/admin/mappings/page.js")
+  handler satisfies AppPageConfig<"/dashboard/admin/mappings">
+}
+
 // Validate ../../src/app/dashboard/admin/page.tsx
 {
   const handler = {} as typeof import("../../src/app/dashboard/admin/page.js")
   handler satisfies AppPageConfig<"/dashboard/admin">
+}
+
+// Validate ../../src/app/dashboard/admin/users/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/admin/users/page.js")
+  handler satisfies AppPageConfig<"/dashboard/admin/users">
 }
 
 // Validate ../../src/app/dashboard/page.tsx
@@ -59,16 +77,46 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/dashboard">
 }
 
+// Validate ../../src/app/dashboard/staff/attendance/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/staff/attendance/page.js")
+  handler satisfies AppPageConfig<"/dashboard/staff/attendance">
+}
+
+// Validate ../../src/app/dashboard/staff/mappings/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/staff/mappings/page.js")
+  handler satisfies AppPageConfig<"/dashboard/staff/mappings">
+}
+
 // Validate ../../src/app/dashboard/staff/page.tsx
 {
   const handler = {} as typeof import("../../src/app/dashboard/staff/page.js")
   handler satisfies AppPageConfig<"/dashboard/staff">
 }
 
+// Validate ../../src/app/dashboard/staff/users/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/staff/users/page.js")
+  handler satisfies AppPageConfig<"/dashboard/staff/users">
+}
+
+// Validate ../../src/app/dashboard/student/classes/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/student/classes/page.js")
+  handler satisfies AppPageConfig<"/dashboard/student/classes">
+}
+
 // Validate ../../src/app/dashboard/student/page.tsx
 {
   const handler = {} as typeof import("../../src/app/dashboard/student/page.js")
   handler satisfies AppPageConfig<"/dashboard/student">
+}
+
+// Validate ../../src/app/dashboard/tutor/classes/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/dashboard/tutor/classes/page.js")
+  handler satisfies AppPageConfig<"/dashboard/tutor/classes">
 }
 
 // Validate ../../src/app/dashboard/tutor/page.tsx
@@ -81,6 +129,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   const handler = {} as typeof import("../../src/app/page.js")
   handler satisfies AppPageConfig<"/">
+}
+
+// Validate ../../src/app/api/v1/attendance/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/v1/attendance/route.js")
+  handler satisfies RouteHandlerConfig<"/api/v1/attendance">
 }
 
 // Validate ../../src/app/api/v1/auth/login/route.ts
@@ -105,6 +159,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   const handler = {} as typeof import("../../src/app/api/v1/mappings/route.js")
   handler satisfies RouteHandlerConfig<"/api/v1/mappings">
+}
+
+// Validate ../../src/app/api/v1/sessions/history/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/v1/sessions/history/route.js")
+  handler satisfies RouteHandlerConfig<"/api/v1/sessions/history">
 }
 
 // Validate ../../src/app/api/v1/sessions/route.ts

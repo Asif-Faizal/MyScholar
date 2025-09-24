@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { ClassService } from '../services/ClassService'
 import { schemas } from '../utils/validation'
+import type { CreateClassRequest } from '../types'
 
 const classService = new ClassService()
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
@@ -32,9 +33,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = (await request.json()) as CreateClassRequest
     
     // Validate request
     const { error } = schemas.createClass.validate(body)

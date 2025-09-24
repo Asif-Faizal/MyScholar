@@ -1,22 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { UserService } from '../services/UserService'
 import { schemas } from '../utils/validation'
+import type { CreateUserRequest } from '../types'
 
 const userService = new UserService()
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
+    const role = searchParams.get('role') as any
 
-    const result = await userService.getAllUsers(page, limit)
+    const isRoleFilter = role && ['admin','staff','teacher','student'].includes(role)
+    const result = isRoleFilter
+      ? { users: await userService.getUsersByRole(role), total: 0 }
+      : await userService.getAllUsers(page, limit)
 
     return NextResponse.json({
       success: true,
       data: {
         users: result.users.map(({ password_hash, ...user }) => user),
-        pagination: {
+        pagination: isRoleFilter ? undefined : {
           page,
           limit,
           total: result.total,
@@ -32,9 +37,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = (await request.json()) as CreateUserRequest
     
     // Validate request
     const { error } = schemas.createUser.validate(body)

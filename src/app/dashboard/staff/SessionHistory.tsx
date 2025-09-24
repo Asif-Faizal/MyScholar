@@ -9,7 +9,7 @@ export default function SessionHistory() {
 
   useEffect(() => {
     apiFetch('/api/v1/sessions/history')
-      .then((res) => setSessions(res.data))
+      .then((res: any) => setSessions(res.data || res))
       .finally(() => setLoading(false));
   }, []);
 

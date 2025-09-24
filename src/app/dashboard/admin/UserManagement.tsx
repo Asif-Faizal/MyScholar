@@ -6,17 +6,21 @@ import { apiFetch } from '../api';
 export default function UserManagement() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ alias: '', email: '', password: '', role: 'tutor' });
+  const [form, setForm] = useState({ alias: '', email: '', password: '', role: 'teacher' });
   const [formStatus, setFormStatus] = useState('idle');
 
+  const fetchUsers = () => apiFetch('/api/v1/users')
+    .then((res: any) => setUsers(res.data?.users || res))
+    .finally(() => setLoading(false));
+
   useEffect(() => {
-    apiFetch('/api/v1/users')
-      .then((res) => setUsers(res.data.users || res))
-      .finally(() => setLoading(false));
+    fetchUsers();
   }, []);
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleFormChange = (e: any) => {
+    const name = e.target.name as string;
+    const value = e.target.value as string;
+    setForm({ ...form, [name]: value });
   };
 
   const handleCreateUser = async (e: React.FormEvent) => {
@@ -28,7 +32,8 @@ export default function UserManagement() {
         body: JSON.stringify(form)
       });
       setFormStatus('success');
-      setForm({ alias: '', email: '', password: '', role: 'tutor' });
+      setForm({ alias: '', email: '', password: '', role: 'teacher' });
+      fetchUsers();
     } catch {
       setFormStatus('error');
     }
@@ -37,36 +42,40 @@ export default function UserManagement() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="mt-6">
-      <h2 className="text-xl font-semibold mb-2">User Management</h2>
-      <form className="mb-4 p-4 bg-gray-100 rounded" onSubmit={handleCreateUser}>
-        <div className="flex gap-4 mb-2">
-          <input name="alias" value={form.alias} onChange={handleFormChange} className="border px-2 py-1 rounded w-1/4" placeholder="Name" required />
-          <input name="email" value={form.email} onChange={handleFormChange} className="border px-2 py-1 rounded w-1/4" placeholder="Email" required />
-          <input name="password" type="password" value={form.password} onChange={handleFormChange} className="border px-2 py-1 rounded w-1/4" placeholder="Password" required />
-          <select name="role" value={form.role} onChange={handleFormChange} className="border px-2 py-1 rounded w-1/4">
-            <option value="tutor">Tutor</option>
+    <div className="mt-6 card">
+      <h2 className="text-xl font-semibold mb-4">User Management</h2>
+      <form className="mb-6" onSubmit={handleCreateUser}>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+          <input name="alias" value={form.alias} onChange={handleFormChange} className="input" placeholder="Name" required />
+          <input name="email" value={form.email} onChange={handleFormChange} className="input" placeholder="Email" required />
+          <input name="password" type="password" value={form.password} onChange={handleFormChange} className="input" placeholder="Password" required />
+          <select name="role" value={form.role} onChange={handleFormChange} className="input">
+            <option value="teacher">Tutor</option>
             <option value="student">Student</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
           </select>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">Add</button>
+          <button type="submit" className="btn btn-primary">Add</button>
         </div>
-        {formStatus==='success' && <div className="text-green-600">User added!</div>}
-        {formStatus==='error' && <div className="text-red-600">Error adding user.</div>}
+        <div className="mt-2 min-h-[20px]">
+          {formStatus==='success' && <div className="text-green-600 text-sm">User added!</div>}
+          {formStatus==='error' && <div className="text-red-600 text-sm">Error adding user.</div>}
+        </div>
       </form>
-      <table className="min-w-full bg-white border rounded shadow">
+      <table className="min-w-full">
         <thead>
           <tr>
-            <th className="px-2 py-1 border">Name</th>
-            <th className="px-2 py-1 border">Email</th>
-            <th className="px-2 py-1 border">Role</th>
+            <th className="px-3 py-2 text-left text-sm font-medium text-gray-600">Name</th>
+            <th className="px-3 py-2 text-left text-sm font-medium text-gray-600">Email</th>
+            <th className="px-3 py-2 text-left text-sm font-medium text-gray-600">Role</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-white divide-y divide-gray-200 border border-gray-200 rounded-lg">
           {users.map((u) => (
             <tr key={u.user_id || u.id}>
-              <td className="border px-2 py-1">{u.alias || u.name}</td>
-              <td className="border px-2 py-1">{u.email}</td>
-              <td className="border px-2 py-1">{u.role}</td>
+              <td className="px-3 py-2">{u.alias || u.name}</td>
+              <td className="px-3 py-2">{u.email}</td>
+              <td className="px-3 py-2 capitalize">{u.role}</td>
             </tr>
           ))}
         </tbody>

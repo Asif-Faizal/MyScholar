@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import Database from '../models/Database';
 
 const db = Database.getInstance();
@@ -15,8 +15,8 @@ export async function GET() {
 }
 
 // POST: Assign a tutor to a student (1:1)
-export async function POST(request: NextRequest) {
-  const { tutorId, studentId } = await request.json();
+export async function POST(request: Request) {
+  const { tutorId, studentId } = (await request.json()) as { tutorId: number; studentId: number };
   // Remove any previous mapping for this student
   await db.run('DELETE FROM tutor_student_mapping WHERE student_id = ?', [studentId]);
   // Remove any previous mapping for this tutor

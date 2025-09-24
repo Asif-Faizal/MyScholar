@@ -48,6 +48,35 @@ async function migrate() {
       )
     `);
 
+    // Tutor-Student mapping table
+    await db.run(`
+      CREATE TABLE IF NOT EXISTS tutor_student_mapping (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tutor_id INTEGER NOT NULL,
+        student_id INTEGER NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(student_id),
+        FOREIGN KEY (tutor_id) REFERENCES users(user_id),
+        FOREIGN KEY (student_id) REFERENCES users(user_id)
+      )
+    `);
+
+    // Sessions table for punch in/out
+    await db.run(`
+      CREATE TABLE IF NOT EXISTS sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tutor_id INTEGER NOT NULL,
+        student_id INTEGER NOT NULL,
+        meeting_link TEXT,
+        punch_in DATETIME,
+        punch_out DATETIME,
+        duration INTEGER,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (tutor_id) REFERENCES users(user_id),
+        FOREIGN KEY (student_id) REFERENCES users(user_id)
+      )
+    `);
+
     // Create default admin user if not exists
     const adminEmail = 'admin@myscholar.com';
     const adminExists = await db.get('SELECT * FROM users WHERE email = ?', [adminEmail]);

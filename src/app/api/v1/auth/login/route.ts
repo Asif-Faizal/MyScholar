@@ -1,12 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { UserService } from '../../services/UserService'
 import { schemas } from '../../utils/validation'
+import type { LoginRequest } from '../../types'
 
 const userService = new UserService()
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = (await request.json()) as LoginRequest
     
     // Validate request
     const { error } = schemas.login.validate(body)

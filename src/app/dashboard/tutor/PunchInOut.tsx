@@ -11,7 +11,7 @@ export default function PunchInOut({ tutorId, studentId }: { tutorId: number, st
   const handlePunchIn = async () => {
     setStatus('loading');
     try {
-      const res = await apiFetch('/api/v1/sessions', {
+      const res: any = await apiFetch('/api/v1/sessions', {
         method: 'POST',
         body: JSON.stringify({ tutorId, studentId, meetingLink })
       });
@@ -42,7 +42,7 @@ export default function PunchInOut({ tutorId, studentId }: { tutorId: number, st
         className="border px-2 py-1 rounded w-full"
         placeholder="Meeting Link"
         value={meetingLink}
-        onChange={e => setMeetingLink(e.target.value)}
+        onChange={(e: any) => setMeetingLink(e.target.value as string)}
         disabled={!!sessionId}
       />
       <div>

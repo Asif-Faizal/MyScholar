@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import Database from '../models/Database';
 import { AuthUtils } from '../utils/auth';
 
 const db = Database.getInstance();
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   const body = await request.json() as { email: string; password: string };
   const { email, password } = body;
   const user = await db.get('SELECT * FROM users WHERE email = ?', [email]);

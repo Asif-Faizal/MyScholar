@@ -1,5 +1,7 @@
 import SessionHistory from './SessionHistory';
 import UserManagement from '../admin/UserManagement';
+import UserPunchSummary from '../UserPunchSummary';
+import AssignMapping from '../admin/AssignMapping';
 
 export default function StaffDashboard() {
   return (
@@ -8,6 +10,8 @@ export default function StaffDashboard() {
       <p>Manage tutors and students. View session history and analytics.</p>
       {/* Add management and analytics components here */}
       <UserManagement />
+      <AssignMapping />
+      <UserPunchSummary />
       <SessionHistory />
     </div>
   );

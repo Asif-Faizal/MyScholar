@@ -11,10 +11,13 @@ export default function AssignMapping() {
   const [status, setStatus] = useState('idle');
 
   useEffect(() => {
-    apiFetch('/api/v1/users')
-      .then((res) => {
-        setTutors((res.data.users || res).filter((u: any) => u.role === 'tutor'));
-        setStudents((res.data.users || res).filter((u: any) => u.role === 'student'));
+    Promise.all([
+      apiFetch('/api/v1/users?role=teacher'),
+      apiFetch('/api/v1/users?role=student')
+    ])
+      .then(([tRes, sRes]: any[]) => {
+        setTutors(((tRes?.data?.users || tRes?.users) ?? []) as any[]);
+        setStudents(((sRes?.data?.users || sRes?.users) ?? []) as any[]);
       });
   }, []);
 
@@ -32,18 +35,18 @@ export default function AssignMapping() {
   };
 
   return (
-    <div className="mt-6">
-      <h2 className="text-xl font-semibold mb-2">Assign Tutor to Student</h2>
-      <div className="flex gap-4 mb-2">
-        <select className="border px-2 py-1 rounded" value={selectedTutor} onChange={e => setSelectedTutor(e.target.value)}>
+    <div className="mt-6 card">
+      <h2 className="text-xl font-semibold mb-4">Assign Tutor to Student</h2>
+      <div className="flex gap-3 mb-2">
+        <select className="input" value={selectedTutor} onChange={(e: any) => setSelectedTutor(e.target.value)}>
           <option value="">Select Tutor</option>
           {tutors.map(t => <option key={t.user_id} value={t.user_id}>{t.alias || t.name}</option>)}
         </select>
-        <select className="border px-2 py-1 rounded" value={selectedStudent} onChange={e => setSelectedStudent(e.target.value)}>
+        <select className="input" value={selectedStudent} onChange={(e: any) => setSelectedStudent(e.target.value)}>
           <option value="">Select Student</option>
           {students.map(s => <option key={s.user_id} value={s.user_id}>{s.alias || s.name}</option>)}
         </select>
-        <button className="bg-blue-500 text-white px-4 py-1 rounded" onClick={handleAssign} disabled={!selectedTutor || !selectedStudent || status==='loading'}>
+        <button className="btn btn-primary" onClick={handleAssign} disabled={!selectedTutor || !selectedStudent || status==='loading'}>
           Assign
         </button>
       </div>

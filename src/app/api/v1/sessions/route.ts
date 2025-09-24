@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import Database from '../models/Database';
 
 const db = Database.getInstance();
 
 // GET: List all sessions (with optional filters)
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const tutorId = searchParams.get('tutorId');
   const studentId = searchParams.get('studentId');
@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
 }
 
 // POST: Tutor punches in (start session)
-export async function POST(request: NextRequest) {
-  const { tutorId, studentId, meetingLink } = await request.json();
+export async function POST(request: Request) {
+  const { tutorId, studentId, meetingLink } = (await request.json()) as { tutorId: number; studentId: number; meetingLink?: string };
   const punchIn = new Date().toISOString();
   const result = await db.run(
     'INSERT INTO sessions (tutor_id, student_id, meeting_link, punch_in) VALUES (?, ?, ?, ?)',
@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
 }
 
 // PUT: Tutor punches out (end session)
-export async function PUT(request: NextRequest) {
-  const { sessionId } = await request.json();
+export async function PUT(request: Request) {
+  const { sessionId } = (await request.json()) as { sessionId: number };
   const punchOut = new Date().toISOString();
   // Get punch in time
   const session = await db.get('SELECT punch_in FROM sessions WHERE id = ?', [sessionId]);

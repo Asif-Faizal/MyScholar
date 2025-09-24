@@ -2,10 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@reference "tailwindcss";
+
 @layer base {
   html {
     font-family: system-ui, sans-serif;
   }
+  body {
+    @apply text-gray-900 antialiased;
+  }
+  h1 {@apply text-2xl md:text-3xl font-bold tracking-tight;}
+  h2 {@apply text-xl md:text-2xl font-semibold;}
+  p {@apply text-gray-700;}
+  a {@apply text-blue-700 hover:text-blue-800 underline-offset-2;}
 }
 
 @layer components {
@@ -14,18 +23,74 @@
   }
   
   .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
+    @apply bg-blue-600 text-white hover:bg-blue-700 shadow-sm;
   }
   
   .btn-secondary {
     @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
   }
+  .btn-outline {
+    @apply border border-blue-300 text-blue-700 bg-white hover:bg-blue-50;
+  }
   
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
   }
   
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+    @apply bg-white rounded-xl shadow border border-gray-200 p-6;
+  }
+
+  .sidebar {
+    @apply w-64 bg-white border-r border-gray-200 flex flex-col;
+  }
+  .sidebar-header {
+    @apply px-4 py-4 text-blue-50 font-bold text-lg border-b border-gray-200 bg-gradient-to-r from-blue-600 to-indigo-600;
+  }
+  .sidebar-link {
+    @apply px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-md transition-colors;
+  }
+  .sidebar-link-active {
+    @apply bg-blue-100 text-blue-800 font-semibold;
+  }
+
+  /* Responsive sidebar behavior */
+  .sidebar-fixed {
+    @apply fixed inset-y-0 left-0 z-40 translate-x-[-100%] md:translate-x-0 md:static md:z-auto;
+  }
+  .sidebar-open {
+    @apply translate-x-0 shadow-xl;
+  }
+  .sidebar-overlay {
+    @apply hidden fixed inset-0 bg-black/30 z-30 md:hidden;
+  }
+  .sidebar-overlay-open {
+    @apply block;
+  }
+
+  /* App header */
+  .app-header {
+    @apply sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-gray-200 px-4 md:px-6 h-16 flex items-center justify-between;
+  }
+
+  /* Role badge */
+  .badge-role {
+    @apply px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800 uppercase;
+  }
+
+  /* Tables */
+  .table {
+    @apply min-w-full;
+  }
+  .table thead th {
+    @apply px-3 py-2 text-left text-sm font-medium text-gray-600;
+  }
+  .table tbody {
+    @apply bg-white divide-y divide-gray-200 border border-gray-200 rounded-lg;
+  }
+
+  /* Background */
+  .brand-bg {
+    @apply min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50;
   }
 }
